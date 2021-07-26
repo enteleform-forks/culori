@@ -1,6 +1,6 @@
 *.sublime-workspace
 .DS_Store
-build/
+#build/
 node_modules
 *.log
 .nyc_output/
