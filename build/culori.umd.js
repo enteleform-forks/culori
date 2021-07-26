@@ -2009,7 +2009,7 @@
 			alias: [],
 			output: { lrgb: Ua, rgb: Ya },
 			input: { lrgb: Va, rgb: Xa },
-			ranges: { l: [0, 1], a: [-0.233, 0.276], b: [-0.311, 0.198] },
+			ranges: { l: [0, 0.999], a: [-0.233, 0.276], b: [-0.311, 0.198] },
 			parsers: []
 		}),
 		rn = Object.assign({}, fa, {
@@ -2032,7 +2032,7 @@
 				}
 			},
 			parsers: [],
-			ranges: { l: [0, 1], c: [0, 0.322], h: [0, 360] }
+			ranges: { l: [0, 0.999], c: [0, 0.322], h: [0, 360] }
 		}),
 		an = function (r) {
 			return (
@@ -2421,8 +2421,16 @@
 			var n = sr(r.mode);
 			r = sr(a)(r);
 			var t = Object.assign({}, r, { c: 0 });
-			if (!Nn(t)) return n(Dn(r));
-			for (var e, o = 0, i = r.c; i - o > 0.01; )
+			if (!Nn(t)) return n(Dn(t));
+			for (
+				var e,
+					o = 0,
+					i = r.c,
+					u = cr(a).ranges.c,
+					h = (u[1] - u[0]) / Math.pow(2, 13);
+				i - o > h;
+
+			)
 				(t.c = o + 0.5 * (i - o)),
 					Nn(t) ? ((e = t.c), (o = t.c)) : (i = t.c);
 			return n(Nn(t) ? t : Object.assign({}, t, { c: e }));

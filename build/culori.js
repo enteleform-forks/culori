@@ -3537,7 +3537,7 @@ var definition$1 = Object.assign({}, definition$d, {
 	},
 
 	ranges: {
-		l: [0, 1],
+		l: [0, 0.999],
 		a: [-0.233, 0.276],
 		b: [-0.311, 0.198]
 	},
@@ -3570,7 +3570,7 @@ var definition = Object.assign({}, definition$b, {
 	parsers: [],
 
 	ranges: {
-		l: [0, 1],
+		l: [0, 0.999],
 		c: [0, 0.322],
 		h: [0, 360]
 	}
@@ -4453,17 +4453,18 @@ var clampChroma = function (color, mode) {
 	// if not even chroma = 0 is displayable
 	// fall back to RGB clamping
 	if (!displayable(clamped)) {
-		return conv(fixup_rgb(color));
+		return conv(fixup_rgb(clamped));
 	}
 
 	// By this time we know chroma = 0 is displayable and our current chroma is not.
 	// Find the displayable chroma through the bisection method.
 	var start = 0;
 	var end = color.c;
-	var delta = 0.01;
+	var range = getModeDefinition(mode).ranges.c;
+	var resolution = (range[1] - range[0]) / Math.pow(2, 13);
 	var _last_good_c;
 
-	while (end - start > delta) {
+	while (end - start > resolution) {
 		clamped.c = start + (end - start) * 0.5;
 		if (displayable(clamped)) {
 			_last_good_c = clamped.c;
